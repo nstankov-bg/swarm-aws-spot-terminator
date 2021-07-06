@@ -15,7 +15,7 @@ On node startup run:
 ```sh
 docker run -it \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  shapigor/swarm-aws-spot-terminator
+  nikoogle/swarm-aws-spot-terminator
 ```
 
 ## Usage in user data
@@ -24,5 +24,5 @@ docker run -it \
 docker run \
     --restart=always -d \
     -v /var/run/docker.sock:/var/run/docker.sock \
-    shapigor/swarm-aws-spot-terminator
+    nikoogle/swarm-aws-spot-terminator
 ```
