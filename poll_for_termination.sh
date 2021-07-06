@@ -18,11 +18,12 @@ MANAGER_IP=$(docker info -f '{{(index .Swarm.RemoteManagers 0).Addr}}' | sed -E 
 MANAGER_ADDR="tcp://$MANAGER_IP:$API_PORT"
 # MANAGER_IP=$(docker info -f '{{json (index .Swarm.RemoteManagers 0).Addr}}')
 
-NOTICE_URL=${NOTICE_URL:-http://169.254.169.254/latest/meta-data/spot/termination-time}
+TOKEN=`curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600"`
+NOTICE_URL=${NOTICE_URL:-http://169.254.169.254/latest/meta-data/spot/instance-action}
 
 echo "Polling ${NOTICE_URL} every ${POLL_INTERVAL} second(s), Manager: ${MANAGER_ADDR}, Node: ${NODE_ID}"
 
-while http_status=$(curl -o /dev/null -w '%{http_code}' -sL ${NOTICE_URL}); [ ${http_status} -ne 200 ]; do
+while http_status=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" -o /dev/null -w '%{http_code}' -sL ${NOTICE_URL}); [ ${http_status} -ne 200 ]; do
   # echo $(date): ${http_status}
   sleep ${POLL_INTERVAL}
 done
