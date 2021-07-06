@@ -1,3 +1,8 @@
+# Based on https://github.com/WiserSolutions/swarm-aws-spot-terminator
+# Credits for original work to https://github.com/WiserSolutions/swarm-aws-spot-terminator
+
+# Refactored in July of 2021
+
 # Swarm spot instance graceful shutdown
 
 In AWS when a spot instance receives a shutdown notification, this image
